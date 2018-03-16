@@ -16,7 +16,8 @@ class Timer(Tk.Frame):
 		b3=Tk.Button(self,text='3',command=lambda:self.up(3))
 		b4=Tk.Button(self,text='4',command=lambda:self.up(4))
 		b5=Tk.Button(self,text='スタート',command=self.start)
-		b6=Tk.Button(self,text='リセット',command=self.stop)
+		b6=Tk.Button(self,text='ストップ',command=self.stop)
+		b7=Tk.Button(self,text='リセット',command=self.reset)
 		self.tokei=Tk.Label(self,text=u'00:00',font=('Arial','100'))
 
 		b1.grid(row=1,column=0,padx=5,pady=0,sticky=Tk.W+Tk.E)
@@ -25,6 +26,7 @@ class Timer(Tk.Frame):
 		b4.grid(row=1,column=3,padx=5,pady=0,sticky=Tk.W+Tk.E)
 		b5.grid(row=2,column=0,columnspan=2,padx=5,pady=2,sticky=Tk.W+Tk.E)
 		b6.grid(row=2,column=2,columnspan=2,padx=5,pady=2,sticky=Tk.W+Tk.E)
+		b7.grid(row=3,column=1,columnspan=2,padx=5,pady=2,sticky=Tk.W+Tk.E)
 		self.tokei.grid(row=0,column=0,columnspan=4,padx=5,pady=0,sticky=Tk.W+Tk.E)
 
 	def start(self):
@@ -32,6 +34,10 @@ class Timer(Tk.Frame):
 		self.kake()
 		self.finish=time.time()+self.s3
 		self.count()
+
+	def stop(self):
+		self.started=False
+		ALM.music.stop()#音楽を止める
 
 	def count(self):
 		if self.started:
@@ -45,10 +51,9 @@ class Timer(Tk.Frame):
 				self.tokei.config(text='%02d:%02d'%(t/60,t%60))
 				self.after(100,self.count)
 
-	def stop(self):
+	def reset(self):
 		self.started=False
 		self.tokei.config(text='00:00')
-		ALM.music.stop()#音楽を止める
 
 	def kake(self):
 		num=self.tokei.cget('text')
